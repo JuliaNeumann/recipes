@@ -1,6 +1,6 @@
 import unittest
 
-from models import Recipe
+from models import Recipe # pylint: disable=import-error
 
 class TestRecipe(unittest.TestCase):
 

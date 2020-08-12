@@ -4,7 +4,9 @@ Chefkoch Scraper - methods for retrieving recipe data from chefkoch.de
 
 import re
 import requests
+from bs4 import BeautifulSoup
 
+from models import Recipe, Ingredient
 
 def get_recipe(url):
     """
@@ -25,4 +27,15 @@ def parse_html_to_recipe(html):
     """
     Parses the given html of a chefkock website to a Recipe object
     """
-    pass
+    soup = BeautifulSoup(html, "html.parser")
+    title = soup.h1.string
+    description_lines = soup.select_one("article.recipe-ingredients ~ article").select_one("small ~ div.ds-box").stripped_strings
+    description = "\n".join([line for line in description_lines])
+    portions = soup.select_one("input[name='portionen']").attrs["value"]
+    ingredient_rows = soup.select_one("table.ingredients").select("tr")
+    ingredients = []
+    for row in ingredient_rows:
+        name = row.select_one(".td-right span").string
+        amount_str = row.select_one(".td-left").string
+        ingredients.append(Ingredient(name, portions, amount_str=amount_str))
+    return Recipe(title, ingredients, description)
