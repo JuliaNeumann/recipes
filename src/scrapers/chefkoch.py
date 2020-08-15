@@ -32,6 +32,7 @@ def parse_html_to_recipe(html):
     description_lines = soup.select_one("article.recipe-ingredients ~ article").select_one("small ~ div.ds-box").stripped_strings
     description = "\n".join([line for line in description_lines])
     portions = soup.select_one("input[name='portionen']").attrs["value"]
+    # TODO: multiple ingredient sections, e.g. https://www.chefkoch.de/rezepte/1956831318412609/Gruene-Kuerbis-Ravioli.html
     ingredient_rows = soup.select_one("table.ingredients").select("tr")
     ingredients = []
     for row in ingredient_rows:

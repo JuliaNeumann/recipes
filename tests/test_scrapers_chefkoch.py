@@ -23,11 +23,10 @@ class TestChefkoch(unittest.TestCase):
             recipe = chefkoch.parse_html_to_recipe(html)
             self.assertEqual("Mock Rezept", recipe.title)
             self.assertEqual("Zuerst muss man dies tun.\nUnd dann noch das tun.\nUnd am Ende hat man ein leckeres Essen!", recipe.description)
-            self.assertEqual(4, len(recipe.ingredients))
-            self.assertEqual("500 g Zutat 1 (mit extra Info) (für 2 Portionen)", str(recipe.ingredients[0]))
-            self.assertEqual("1 Zutat 2 (für 2 Portionen)", str(recipe.ingredients[1]))
+            self.assertEqual(3, len(recipe.ingredients))
+            self.assertEqual("500.0 g Zutat 1 (mit extra Info) (für 2 Portionen)", str(recipe.ingredients[0]))
+            self.assertEqual("1.0 Zutat 2 (für 2 Portionen)", str(recipe.ingredients[1]))
             self.assertEqual("etwas Zutat 3 und Zutat 4 (für 2 Portionen)", str(recipe.ingredients[2]))
-            self.assertEqual("ca. 12 kleine von Zutat 5 (für 2 Portionen)", str(recipe.ingredients[3]))
 
 if __name__ == "__main__":
     unittest.main()

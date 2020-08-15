@@ -2,6 +2,9 @@
 Ingredient Model Module
 """
 
+import unicodedata
+import re
+
 class Ingredient:
     """
     Main Ingredient Data Class
@@ -17,13 +20,18 @@ class Ingredient:
 
     def get_amount_from_str(self, amount_str):
         amount_arr = amount_str.split()
-        if (len(amount_arr) > 0 and amount_arr[0].isnumeric()):
-            self.amount = int(amount_arr.pop(0))
+        if (len(amount_arr) > 0 and self.is_number_str(amount_arr[0])):
+            self.amount = self.parse_str_to_number(amount_arr.pop(0))
 
-        if (len(amount_str) > 0):
+        if (len(amount_arr) > 0):
             self.unit = " ".join(amount_arr)
 
-        # TODO: cover more cases here!!
+    def is_number_str(self, str):
+        return str.isnumeric() or re.search(r"^\d+[\.,]\d+", str)
+
+    def parse_str_to_number(self, str):
+        str = str.replace(",", ".")
+        return unicodedata.numeric(str) if len(str) == 1 else float(str)
 
     def __str__(self):
         amount = ""
