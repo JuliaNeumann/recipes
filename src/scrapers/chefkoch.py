@@ -6,7 +6,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from models import Recipe, Ingredient
+from src.models import Recipe, Ingredient
 
 def get_recipe(url):
     """
@@ -29,7 +29,7 @@ def parse_html_to_recipe(html):
     """
     soup = BeautifulSoup(html, "html.parser")
     title = soup.h1.string
-    description_lines = soup.select_one("article.recipe-ingredients ~ article").select_one("small ~ div.ds-box").stripped_strings
+    description_lines = soup.find("h2", string="Zubereitung").parent.select_one("small ~ div.ds-box").stripped_strings
     description = "\n".join([line for line in description_lines])
     portions = soup.select_one("input[name='portionen']").attrs["value"]
     ingredient_tables = soup.select("table.ingredients")
@@ -44,6 +44,10 @@ def add_ingredients_from_table(table, portions, ingredients):
     """
     ingredient_rows = table.select("tr")
     for row in ingredient_rows:
-        name = row.select_one(".td-right span").string
+        name_cell = row.select_one(".td-right span")
+        if not name_cell:
+            continue
+        name = name_cell.string
         amount_str = row.select_one(".td-left").string
         ingredients.append(Ingredient(name, portions, amount_str=amount_str))
+        
