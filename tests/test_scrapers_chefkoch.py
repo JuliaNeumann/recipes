@@ -1,16 +1,15 @@
 import unittest
 import helpers
 
-from scrapers import chefkoch  # pylint: disable=import-error
+from scrapers import Chefkoch  # pylint: disable=import-error
 from models import Recipe # pylint: disable=import-error
 
 class TestChefkoch(unittest.TestCase):
 
     def test_is_correct_url(self):
-        """
-        Test that it recognizes correct chefkoch urls
-        """
+        chefkoch = Chefkoch()
         self.assertTrue(chefkoch.is_correct_url("https://www.chefkoch.de/rezepte/966751202371651/Grillspiess-mit-Huhn-und-Brezenteig.html"))
+        self.assertTrue(chefkoch.is_correct_url("https://www.chefkoch.de/rezepte/966751202371651/Grillspiess-mit-Huhn-und-Brezenteig.html?zufall=on"))
         self.assertFalse(chefkoch.is_correct_url("https://www.chefkoch.de/rezepte/foo/bar"))
         self.assertFalse(chefkoch.is_correct_url("https://www.chefkoch.de/rezepte/"))
         self.assertFalse(chefkoch.is_correct_url("https://www.chefoch.de/rezepte/966751202371651/Grillspiess-mit-Huhn-und-Brezenteig.html"))
@@ -20,6 +19,7 @@ class TestChefkoch(unittest.TestCase):
     def test_parse_html_to_recipe(self):
         with open(helpers.resource_file("chefkoch_recipe.html"), "r") as html_file:
             html = html_file.read()
+            chefkoch = Chefkoch()
             recipe = chefkoch.parse_html_to_recipe(html)
             self.assertEqual("Mock Rezept", recipe.title)
             self.assertEqual("Zuerst muss man dies tun.\nUnd dann noch das tun.\nUnd am Ende hat man ein leckeres Essen!", recipe.description)

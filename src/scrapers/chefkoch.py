@@ -1,53 +1,59 @@
 """
-Chefkoch Scraper - methods for retrieving recipe data from chefkoch.de
+Chefkoch Scraper Module
 """
 
 import re
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from src.models import Recipe, Ingredient
 
-def get_recipe(url):
+class Chefkoch:
     """
-    Main method: retrieve `Recipe` from the given chefkoch url
+    Chefkoch Scraper - for retrieving recipe data from chefkoch.de
     """
-    if is_correct_url(url):
-        result = requests.get(url).text
-        return parse_html_to_recipe(result)
-    return None
 
-def is_correct_url(url):
-    """
-    Checks if given `url` is a valid chefkoch url
-    """
-    return re.search(r"^https://www.chefkoch.de/rezepte/\d+/[\w\-]+\.html$", url) is not None
+    def get_recipe(self, url: str) -> Recipe:
+        """
+        Main method: retrieve `Recipe` from the given chefkoch url
+        """
+        if self.is_correct_url(url):
+            result = requests.get(url).text
+            return self.parse_html_to_recipe(result)
+        print("Keine valide Url gegeben.") # TODO: proper error handling
+        return None
 
-def parse_html_to_recipe(html):
-    """
-    Parses the given html of a chefkock website to a `Recipe` object
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    title = soup.h1.string
-    description_lines = soup.find("h2", string="Zubereitung").parent.select_one("small ~ div.ds-box").stripped_strings
-    description = "\n".join([line for line in description_lines])
-    portions = soup.select_one("input[name='portionen']").attrs["value"]
-    ingredient_tables = soup.select("table.ingredients")
-    ingredients = []
-    for table in ingredient_tables:
-        add_ingredients_from_table(table, portions, ingredients)
-    return Recipe(title, ingredients, description)
+    def is_correct_url(self, url: str) -> bool:
+        """
+        Checks if given `url` is a valid chefkoch url
+        """
+        return re.search(r"^https://www.chefkoch.de/rezepte/\d+/[\w\-]+\.html(\?[\w&=]+)?$", url) is not None
 
-def add_ingredients_from_table(table, portions, ingredients):
-    """
-    Retrieves ingredients from given `table` and adds them to `ingredients`
-    """
-    ingredient_rows = table.select("tr")
-    for row in ingredient_rows:
-        name_cell = row.select_one(".td-right span")
-        if not name_cell:
-            continue
-        name = name_cell.string
-        amount_str = row.select_one(".td-left").string
-        ingredients.append(Ingredient(name, portions, amount_str=amount_str))
+    def parse_html_to_recipe(self, html: str) -> Recipe:
+        """
+        Parses the given html of a chefkock website to a `Recipe` object
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        title = soup.h1.string
+        description_lines = soup.find("h2", string="Zubereitung").parent.select_one("small ~ div.ds-box").stripped_strings
+        description = "\n".join([line for line in description_lines])
+        portions = int(soup.select_one("input[name='portionen']").attrs["value"])
+        ingredient_tables = soup.select("table.ingredients")
+        ingredients = []
+        for table in ingredient_tables:
+            self.add_ingredients_from_table(table, portions, ingredients)
+        return Recipe(title, ingredients, description)
+
+    def add_ingredients_from_table(self, table: Tag, portions: int, ingredients: list):
+        """
+        Retrieves ingredients from given `table` and adds them to `ingredients`
+        """
+        ingredient_rows = table.select("tr")
+        for row in ingredient_rows:
+            name_cell = row.select_one(".td-right span")
+            if not name_cell:
+                continue
+            name = name_cell.string
+            amount_str = row.select_one(".td-left").string
+            ingredients.append(Ingredient(name, portions, amount_str=amount_str))
         
