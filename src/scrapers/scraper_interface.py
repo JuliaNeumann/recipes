@@ -3,6 +3,10 @@ import abc
 from src.models import Recipe
 
 class ScraperInterface(metaclass=abc.ABCMeta):
+    """
+    Formal Scraper Interface - Must be implemented by all classes to scrape different web sources for recipes
+    """
+
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'get_recipe') and

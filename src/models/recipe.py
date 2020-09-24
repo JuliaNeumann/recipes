@@ -1,7 +1,3 @@
-"""
-Recipe Model Module
-"""
-
 class Recipe:
     """
     Main Recipe Data Class

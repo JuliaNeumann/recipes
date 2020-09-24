@@ -1,7 +1,3 @@
-"""
-Ingredient Model Module
-"""
-
 import unicodedata
 import re
 

@@ -1,7 +1,3 @@
-"""
-Chefkoch Scraper Module
-"""
-
 import re
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -32,7 +28,7 @@ class Chefkoch(ScraperInterface):
 
     def parse_html_to_recipe(self, html: str) -> Recipe:
         """
-        Parses the given html of a chefkock website to a `Recipe` object
+        Parses the given html of a chefkoch website to a `Recipe` object
         """
         soup = BeautifulSoup(html, "html.parser")
         title = soup.h1.string

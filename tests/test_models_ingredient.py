@@ -5,9 +5,6 @@ from models import Ingredient # pylint: disable=import-error
 class TestIngredient(unittest.TestCase):
 
     def test_create_ingredient(self):
-        """
-        Test that ingredient class can be initialized
-        """
         my_ingredient = Ingredient("meine Geheimzutat", 4, 100)
         self.assertEqual("100 meine Geheimzutat (für 4 Portionen)", str(my_ingredient))
 
@@ -15,9 +12,6 @@ class TestIngredient(unittest.TestCase):
         self.assertEqual("2.5 kg Zutat (für 6 Portionen)", str(my_ingredient))
 
     def test_get_amount_from_str(self):
-        """
-        Test that amount (including unit etc.) can be parsed from string
-        """
         self.assert_amount(425, "ml", "425 ml")
         self.assert_amount(3.75, "kg", "3.75 kg")
         self.assert_amount(1.2, "Liter", "1,2 Liter")
