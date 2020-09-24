@@ -6,9 +6,10 @@ import re
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from .scraper_interface import ScraperInterface
 from src.models import Recipe, Ingredient
 
-class Chefkoch:
+class Chefkoch(ScraperInterface):
     """
     Chefkoch Scraper - for retrieving recipe data from chefkoch.de
     """
