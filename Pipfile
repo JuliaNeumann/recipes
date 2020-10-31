@@ -11,6 +11,8 @@ nose = "*"
 [packages]
 requests = "*"
 beautifulsoup4 = "*"
+django = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.6"

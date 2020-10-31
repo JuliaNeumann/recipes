@@ -9,3 +9,6 @@ Activate virtual environment (uses a subshell):
 
 Run unit tests:
 ```$ python -m nose```
+
+Start django server:
+```python manage.py runserver```
