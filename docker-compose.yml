@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  
+  recipes_db:
+    image: postgres:9.6.19-alpine
+    restart: always
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: recipes_password
+      POSTGRES_USER: recipes_user
+      POSTGRES_DB: recipes

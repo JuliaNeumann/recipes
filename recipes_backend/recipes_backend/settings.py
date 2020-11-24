@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'recipes_api.apps.RecipesApiConfig',
+    'recipes_scrapers.apps.RecipesScrapersConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,8 +78,11 @@ WSGI_APPLICATION = 'recipes_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'recipes',
+        'HOST': 'localhost',
+        'USER': 'recipes_user',
+        'PASSWORD': 'recipes_password',
     }
 }
 
@@ -107,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 

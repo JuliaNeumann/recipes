@@ -10,5 +10,5 @@ Activate virtual environment (uses a subshell):
 Run unit tests:
 ```$ python -m nose```
 
-Start django server:
+Start django server (in recipes_backend/):
 ```python manage.py runserver```

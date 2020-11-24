@@ -1,5 +1,6 @@
 .vscode
 .noseids
 __pycache__/
+db/
 
 recipes_backend/db.sqlite3
