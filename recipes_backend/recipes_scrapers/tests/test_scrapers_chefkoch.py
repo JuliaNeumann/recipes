@@ -1,10 +1,10 @@
-import unittest
-import helpers
+from django.test import TestCase
+import recipes_scrapers.tests.helpers as helpers # pylint: disable=import-error
 
-from scrapers import Chefkoch  # pylint: disable=import-error
-from models import Recipe # pylint: disable=import-error
+from recipes_scrapers.scrapers import Chefkoch # pylint: disable=import-error
+from recipes_scrapers.models import Recipe # pylint: disable=import-error
 
-class TestChefkoch(unittest.TestCase):
+class TestChefkoch(TestCase):
 
     def test_is_correct_url(self):
         chefkoch = Chefkoch()
@@ -27,6 +27,3 @@ class TestChefkoch(unittest.TestCase):
             self.assertEqual("500.0 g Zutat 1 (mit extra Info) (für 2 Portionen)", str(recipe.ingredients[0]))
             self.assertEqual("1.0 Zutat 2 (für 2 Portionen)", str(recipe.ingredients[1]))
             self.assertEqual("etwas Zutat 3 und Zutat 4 (für 2 Portionen)", str(recipe.ingredients[2]))
-
-if __name__ == "__main__":
-    unittest.main()

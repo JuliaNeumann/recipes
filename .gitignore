@@ -1,5 +1,4 @@
 .vscode
-.noseids
 __pycache__/
 db/
 

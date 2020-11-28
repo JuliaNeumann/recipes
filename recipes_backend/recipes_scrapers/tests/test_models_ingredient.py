@@ -1,8 +1,8 @@
-import unittest
+from django.test import TestCase
 
-from models import Ingredient # pylint: disable=import-error
+from recipes_scrapers.models import Ingredient # pylint: disable=import-error
 
-class TestIngredient(unittest.TestCase):
+class TestIngredient(TestCase):
 
     def test_create_ingredient(self):
         my_ingredient = Ingredient("meine Geheimzutat", 4, 100)
@@ -29,7 +29,3 @@ class TestIngredient(unittest.TestCase):
         my_ingredient = Ingredient("meine Geheimzutat", 4, amount_str=amount_str)
         self.assertEqual(expected_amount, my_ingredient.amount)
         self.assertEqual(expected_unit, my_ingredient.unit)
-
-        
-if __name__ == '__main__':
-    unittest.main()

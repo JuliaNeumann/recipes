@@ -5,11 +5,11 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'recipes', views.RecipeViewSet)
 router.register(r'ingredients', views.IngredientViewSet)
+router.register(r'scrape', views.ScrapeViewSet, basename="scrape")
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('scrape/', views.scrape_view, name='scrape-view'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
