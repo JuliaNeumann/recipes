@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import { IconButton, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import IngredientFormRow from "./IngredientFormRow";
+import { createRecipe } from "../services/api";
 
 const createRecipeStyles = {
   formRow: {
@@ -52,17 +53,21 @@ class CreateRecipe extends React.Component {
     };
   }
 
-  submitHandler(event) {
+  async submitHandler(event) {
     event.preventDefault();
     const recipe = {
       title: this.state.title,
       description: this.state.description,
-      ingredients: this.state.ingredients.map((ingredient) => {
-        ingredient.portions = this.state.portions;
+      ingredient_set: this.state.ingredients.map((ingredient) => {
+        ingredient.num_portions = this.state.portions;
         return ingredient;
       }),
     };
-    console.log(recipe);
+
+    const result = await createRecipe(recipe);
+    if (result) {
+      alert("Recipe has been saved!");
+    }
   }
 
   updateIngredient(index, ingredient) {
