@@ -34,17 +34,57 @@ const createRecipeStyles = {
 class CreateRecipe extends React.Component {
   constructor(props) {
     super(props);
+
+    this.submitHandler = this.submitHandler.bind(this);
+    this.updateIngredient = this.updateIngredient.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
     this.state = {
       title: "",
       description: "",
       portions: 4,
-      ingredients: [<IngredientFormRow />],
+      ingredientsComponents: [
+        <IngredientFormRow
+          index={0}
+          updateIngredient={this.updateIngredient}
+        />,
+      ],
+      ingredients: [{ amount: 0, unit: "", name: "" }],
     };
-    this.submitHandler = this.submitHandler.bind(this);
   }
 
   submitHandler(event) {
     event.preventDefault();
+    const recipe = {
+      title: this.state.title,
+      description: this.state.description,
+      ingredients: this.state.ingredients.map((ingredient) => {
+        ingredient.portions = this.state.portions;
+        return ingredient;
+      }),
+    };
+    console.log(recipe);
+  }
+
+  updateIngredient(index, ingredient) {
+    const ingredients = this.state.ingredients.slice();
+    ingredients[index] = ingredient;
+    this.setState({ ingredients });
+  }
+
+  addIngredient() {
+    this.setState({
+      ingredientsComponents: [
+        ...this.state.ingredientsComponents,
+        <IngredientFormRow
+          index={this.state.ingredients.length}
+          updateIngredient={this.updateIngredient}
+        />,
+      ],
+      ingredients: [
+        ...this.state.ingredients,
+        { amount: 0, unit: "", name: "" },
+      ],
+    });
   }
 
   render() {
@@ -73,18 +113,14 @@ class CreateRecipe extends React.Component {
         </Typography>
         <div className={classes.ingredients}>
           <div className={classes.ingredientsList}>
-            {this.state.ingredients.map((ingredient, index) => (
+            {this.state.ingredientsComponents.map((ingredient, index) => (
               <React.Fragment key={index}>{ingredient}</React.Fragment>
             ))}
           </div>
           <IconButton
             className={classes.addIngredient}
             color="secondary"
-            onClick={() => {
-              this.setState({
-                ingredients: [...this.state.ingredients, <IngredientFormRow />],
-              });
-            }}
+            onClick={this.addIngredient}
           >
             <AddIcon />
           </IconButton>

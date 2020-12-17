@@ -27,6 +27,10 @@ class IngredientFormRow extends React.Component {
     this.state = { amount: 0, unit: "", name: "" };
   }
 
+  componentDidUpdate() {
+    this.props.updateIngredient(this.props.index, this.state);
+  }
+
   render() {
     const classes = this.props.classes;
     return (
