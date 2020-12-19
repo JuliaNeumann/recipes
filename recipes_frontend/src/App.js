@@ -16,6 +16,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import CreateRecipe from "./components/CreateRecipe";
 import NavItems from "./components/NavItems";
+import RecipesOverview from "./components/RecipesOverview";
+import ShowRecipe from "./components/ShowRecipe";
 
 const drawerWidth = 240;
 
@@ -158,7 +160,12 @@ function App() {
               </Route>
               <Route path="/import">Import recipe</Route>
               <Route path="/weekplan">Weekplan</Route>
-              <Route path="/">All recipes</Route>
+              <Route path="/recipe/:id">
+                <ShowRecipe />
+              </Route>
+              <Route path="/">
+                <RecipesOverview />
+              </Route>
             </Switch>
           </Container>
         </main>

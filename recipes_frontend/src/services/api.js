@@ -7,3 +7,14 @@ export async function createRecipe(recipe) {
   // TODO: error handling
   return true;
 }
+
+
+export async function getAllRecipes() {
+  const result = await axios.get(BASE_URL);
+  return result.data;
+}
+
+export async function getRecipe(id) {
+  const result = await axios.get(`${BASE_URL}${id}/`);
+  return result.data;
+}
