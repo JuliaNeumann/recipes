@@ -24,7 +24,11 @@ const IngredientFormRowStyles = {
 class IngredientFormRow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { amount: 0, unit: "", name: "" };
+    this.state = {
+      amount: this.props.ingredient?.amount || 0,
+      unit: this.props.ingredient?.unit || "",
+      name: this.props.ingredient?.name || "",
+    };
   }
 
   componentDidUpdate() {

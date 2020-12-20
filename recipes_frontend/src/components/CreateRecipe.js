@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -39,17 +40,33 @@ class CreateRecipe extends React.Component {
     this.submitHandler = this.submitHandler.bind(this);
     this.updateIngredient = this.updateIngredient.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
+
+    let ingredientsComponents = [
+      <IngredientFormRow index={0} updateIngredient={this.updateIngredient} />,
+    ];
+    let ingredients = [{ amount: 0, unit: "", name: "" }];
+
+    if (this.props.ingredients) {
+      ingredientsComponents = [];
+      ingredients = [];
+      this.props.ingredients.forEach((ingredient, index) => {
+        ingredientsComponents.push(
+          <IngredientFormRow
+            index={index}
+            updateIngredient={this.updateIngredient}
+            ingredient={ingredient}
+          />
+        );
+        ingredients.push(ingredient);
+      });
+    }
+
     this.state = {
-      title: "",
-      description: "",
-      portions: 4,
-      ingredientsComponents: [
-        <IngredientFormRow
-          index={0}
-          updateIngredient={this.updateIngredient}
-        />,
-      ],
-      ingredients: [{ amount: 0, unit: "", name: "" }],
+      title: this.props.recipe?.title || "",
+      description: this.props.recipe?.description || "",
+      portions: this.props.ingredients?.[0]?.num_portions || 4,
+      ingredientsComponents,
+      ingredients,
     };
   }
 
@@ -65,8 +82,9 @@ class CreateRecipe extends React.Component {
     };
 
     const result = await createRecipe(recipe);
-    if (result) {
+    if (!isNaN(result)) {
       alert("Recipe has been saved!");
+      this.props.history.push(`recipe/${result}`);
     }
   }
 
@@ -151,4 +169,4 @@ class CreateRecipe extends React.Component {
   }
 }
 
-export default withStyles(createRecipeStyles)(CreateRecipe);
+export default withStyles(createRecipeStyles)(withRouter(CreateRecipe));

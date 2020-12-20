@@ -17,6 +17,9 @@ const showRecipeStyles = {
   block: {
     marginBottom: 15,
   },
+  textBlock: {
+    whiteSpace: "pre-line",
+  },
 };
 
 class ShowRecipe extends React.Component {
@@ -54,21 +57,25 @@ class ShowRecipe extends React.Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.state.recipe.ingredient_set.map((ingredient) => (
-                    <TableRow key={ingredient.id}>
-                      <TableCell>
-                        {`${ingredient.amount} ${ingredient.unit}`}
-                      </TableCell>
-                      <TableCell>{ingredient.name}</TableCell>
-                    </TableRow>
-                  ))}
+                  {this.state.recipe.ingredient_set
+                    .sort((a, b) => (a.id > b.id ? 1 : -1))
+                    .map((ingredient) => (
+                      <TableRow key={ingredient.id}>
+                        <TableCell>
+                          {`${ingredient.amount || ""} ${ingredient.unit}`}
+                        </TableCell>
+                        <TableCell>{ingredient.name}</TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
             <Typography className={classes.block} variant="h5">
               Zubereitung
             </Typography>
-            <Typography>{this.state.recipe.description}</Typography>
+            <Typography className={classes.textBlock}>
+              {this.state.recipe.description}
+            </Typography>
           </>
         )}
       </>

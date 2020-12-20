@@ -57,7 +57,11 @@ class RecipesOverview extends React.Component {
                     {recipe.id}
                   </TableCell>
                   <TableCell>
-                    <Link component={RouterLink} to={`/recipe/${recipe.id}`} color="secondary">
+                    <Link
+                      component={RouterLink}
+                      to={`/recipe/${recipe.id}`}
+                      color="secondary"
+                    >
                       {recipe.title}
                     </Link>
                   </TableCell>

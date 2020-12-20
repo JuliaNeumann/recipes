@@ -33,7 +33,7 @@ class Chefkoch(ScraperInterface):
         soup = BeautifulSoup(html, "html.parser")
         title = soup.h1.string
         description_lines = soup.find("h2", string="Zubereitung").parent.select_one("small ~ div.ds-box").stripped_strings
-        description = "\n".join([line for line in description_lines])
+        description = "\n\n".join([line for line in description_lines])
         portions = int(soup.select_one("input[name='portionen']").attrs["value"])
         ingredient_tables = soup.select("table.ingredients")
         ingredients = []

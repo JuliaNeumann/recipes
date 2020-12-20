@@ -18,6 +18,7 @@ import CreateRecipe from "./components/CreateRecipe";
 import NavItems from "./components/NavItems";
 import RecipesOverview from "./components/RecipesOverview";
 import ShowRecipe from "./components/ShowRecipe";
+import ImportRecipe from "./components/ImportRecipe";
 
 const drawerWidth = 240;
 
@@ -158,7 +159,9 @@ function App() {
               <Route path="/create">
                 <CreateRecipe />
               </Route>
-              <Route path="/import">Import recipe</Route>
+              <Route path="/import">
+                <ImportRecipe />
+              </Route>
               <Route path="/weekplan">Weekplan</Route>
               <Route path="/recipe/:id">
                 <ShowRecipe />

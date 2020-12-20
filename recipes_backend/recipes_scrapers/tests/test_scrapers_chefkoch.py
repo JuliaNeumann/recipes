@@ -22,7 +22,7 @@ class TestChefkoch(TestCase):
             chefkoch = Chefkoch()
             recipe = chefkoch.parse_html_to_recipe(html)
             self.assertEqual("Mock Rezept", recipe.title)
-            self.assertEqual("Zuerst muss man dies tun.\nUnd dann noch das tun.\nUnd am Ende hat man ein leckeres Essen!", recipe.description)
+            self.assertEqual("Zuerst muss man dies tun.\n\nUnd dann noch das tun.\n\nUnd am Ende hat man ein leckeres Essen!", recipe.description)
             self.assertEqual(3, len(recipe.ingredients))
             self.assertEqual("500.0 g Zutat 1 (mit extra Info) (für 2 Portionen)", str(recipe.ingredients[0]))
             self.assertEqual("1.0 Zutat 2 (für 2 Portionen)", str(recipe.ingredients[1]))
