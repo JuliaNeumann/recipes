@@ -11,8 +11,9 @@ import {
   TableCell,
   Typography,
 } from "@material-ui/core";
-import { getRecipe } from "../services/api";
 import { withRouter } from "react-router-dom";
+import { getRecipe } from "../services/api";
+import PortionSelection from "./PortionSelection";
 
 const showRecipeStyles = {
   block: {
@@ -30,13 +31,23 @@ class ShowRecipe extends React.Component {
     const { id } = this.props.match.params;
     this.state = {
       recipe: undefined,
+      portions: 2,
       id: id,
     };
+
+    this.getAmountForPortions = this.getAmountForPortions.bind(this);
   }
 
   async componentDidMount() {
     const recipe = await getRecipe(this.state.id);
-    this.setState({ recipe });
+    this.setState({
+      recipe,
+      portions: recipe.ingredients?.[0]?.num_portions || 2,
+    });
+  }
+
+  getAmountForPortions(ingredient) {
+    return (ingredient.amount / ingredient.num_portions) * this.state.portions;
   }
 
   render() {
@@ -49,15 +60,25 @@ class ShowRecipe extends React.Component {
             <Typography className={classes.block} variant="h4">
               {this.state.recipe.title}
             </Typography>
-            {this.state.recipe.url &&
+            {this.state.recipe.url && (
               <Typography className={classes.block}>
-                <Link href={this.state.recipe.url} target={"_blank"}>
+                <Link href={this.state.recipe.url} target="_blank">
                   {this.state.recipe.url}
                 </Link>
               </Typography>
-            }
+            )}
+            <PortionSelection
+              portions={this.state.portions}
+              changeHandler={(event) =>
+                this.setState({ portions: event.target.value })
+              }
+            />
             <TableContainer className={classes.block} component={Paper}>
-              <Table className={classes.table} aria-label="recipes table">
+              <Table
+                className={classes.table}
+                size="small"
+                aria-label="recipes table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Menge</TableCell>
@@ -70,7 +91,9 @@ class ShowRecipe extends React.Component {
                     .map((ingredient) => (
                       <TableRow key={ingredient.id}>
                         <TableCell>
-                          {`${ingredient.amount || ""} ${ingredient.unit}`}
+                          {`${this.getAmountForPortions(ingredient) || ""} ${
+                            ingredient.unit
+                          }`}
                         </TableCell>
                         <TableCell>{ingredient.name}</TableCell>
                       </TableRow>

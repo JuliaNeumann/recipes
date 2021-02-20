@@ -11,8 +11,8 @@ import {
   TableCell,
   Typography,
 } from "@material-ui/core";
-import { getAllRecipes } from "../services/api";
 import { Link as RouterLink } from "react-router-dom";
+import { getAllRecipes } from "../services/api";
 
 const recipesOverviewStyles = {
   headline: {

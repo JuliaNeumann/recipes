@@ -3,22 +3,15 @@ import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import IngredientFormRow from "./IngredientFormRow";
+import PortionSelection from "./PortionSelection";
 import { createRecipe } from "../services/api";
 
 const createRecipeStyles = {
   formRow: {
     marginBottom: 25,
-  },
-  ingredientsTitle: {
-    display: "flex",
-    alignItems: "baseline",
-  },
-  numField: {
-    maxWidth: 50,
-    marginRight: 10,
   },
   ingredients: {
     display: "flex",
@@ -132,18 +125,12 @@ class CreateRecipe extends React.Component {
           value={this.state.url}
           onChange={(event) => this.setState({ url: event.target.value })}
         />
-        <Typography className={classes.ingredientsTitle} component="div">
-          Zutaten für &nbsp;
-          <TextField
-            className={classes.numField}
-            type="number"
-            value={this.state.portions}
-            onChange={(event) =>
-              this.setState({ portions: event.target.value })
-            }
-          />
-          Portionen:
-        </Typography>
+        <PortionSelection
+          portions={this.state.portions}
+          changeHandler={(event) =>
+            this.setState({ portions: event.target.value })
+          }
+        />
         <div className={classes.ingredients}>
           <div className={classes.ingredientsList}>
             {this.state.ingredientsComponents.map((ingredient, index) => (
