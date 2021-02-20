@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
+  Link,
   Paper,
   Table,
   TableHead,
@@ -48,6 +49,13 @@ class ShowRecipe extends React.Component {
             <Typography className={classes.block} variant="h4">
               {this.state.recipe.title}
             </Typography>
+            {this.state.recipe.url &&
+              <Typography className={classes.block}>
+                <Link href={this.state.recipe.url} target={"_blank"}>
+                  {this.state.recipe.url}
+                </Link>
+              </Typography>
+            }
             <TableContainer className={classes.block} component={Paper}>
               <Table className={classes.table} aria-label="recipes table">
                 <TableHead>

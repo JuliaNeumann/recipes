@@ -22,5 +22,5 @@ export async function importRecipe(scraper, url) {
   const result = await axios.get(`${BASE_URL}/scrape/`, {
     params: { scraper, url },
   });
-  return result.data;
+  return {...result.data, url};
 }

@@ -63,6 +63,7 @@ class CreateRecipe extends React.Component {
 
     this.state = {
       title: this.props.recipe?.title || "",
+      url: this.props.recipe?.url || "",
       description: this.props.recipe?.description || "",
       portions: this.props.ingredients?.[0]?.num_portions || 4,
       ingredientsComponents,
@@ -74,6 +75,7 @@ class CreateRecipe extends React.Component {
     event.preventDefault();
     const recipe = {
       title: this.state.title,
+      url: this.state.url,
       description: this.state.description,
       ingredient_set: this.state.ingredients.map((ingredient) => {
         ingredient.num_portions = this.state.portions;
@@ -83,7 +85,7 @@ class CreateRecipe extends React.Component {
 
     const result = await createRecipe(recipe);
     if (!isNaN(result)) {
-      alert("Recipe has been saved!");
+      alert("Rezept gespeichert!");
       this.props.history.push(`recipe/${result}`);
     }
   }
@@ -121,6 +123,14 @@ class CreateRecipe extends React.Component {
           fullWidth
           value={this.state.title}
           onChange={(event) => this.setState({ title: event.target.value })}
+        />
+        <TextField
+          className={classes.formRow}
+          id="url"
+          label="URL (optional)"
+          fullWidth
+          value={this.state.url}
+          onChange={(event) => this.setState({ url: event.target.value })}
         />
         <Typography className={classes.ingredientsTitle} component="div">
           Zutaten für &nbsp;
