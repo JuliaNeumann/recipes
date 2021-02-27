@@ -7,8 +7,8 @@ from rest_framework.decorators import api_view
 
 from recipes_scrapers.scrapers import Chefkoch
 
-from .serializers import RecipeSerializer, IngredientSerializer, PlanSerializer
-from .models import Recipe, Ingredient, Plan
+from .serializers import RecipeSerializer, IngredientSerializer, PlanSerializer, MealSerializer
+from .models import Recipe, Ingredient, Plan, Meal
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all().order_by('title')
@@ -18,8 +18,11 @@ class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredient.objects.all().order_by('name')
     serializer_class = IngredientSerializer
 
+class MealViewSet(viewsets.ModelViewSet):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
 class PlanViewSet(viewsets.ModelViewSet):
-    queryset = Plan.objects.all().order_by('created')
+    queryset = Plan.objects.all().order_by('-created')
     serializer_class = PlanSerializer
 
 class ScrapeViewSet(viewsets.ViewSet):

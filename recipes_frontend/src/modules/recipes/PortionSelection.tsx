@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent } from "react";
+import React, { ChangeEvent } from "react";
 import {withStyles,  WithStyles, createStyles, Theme } from '@material-ui/core';
 import { TextField, Typography } from "@material-ui/core";
 

@@ -12,13 +12,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-import { getAllRecipes } from "../services/api";
+import { getAllRecipes } from "services/api";
 
-const recipesOverviewStyles = {
-  headline: {
-    marginBottom: 15,
-  },
-};
+const recipesOverviewStyles = {};
 
 class RecipesOverview extends React.Component {
   constructor(props) {
@@ -39,7 +35,7 @@ class RecipesOverview extends React.Component {
 
     return (
       <>
-        <Typography className={classes.headline} variant="h4">
+        <Typography gutterBottom variant="h5">
           {this.state.recipes.length} Rezepte
         </Typography>
         <TableContainer component={Paper}>

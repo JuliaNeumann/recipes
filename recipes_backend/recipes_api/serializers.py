@@ -22,11 +22,20 @@ class RecipeSerializer(serializers.ModelSerializer):
             Ingredient.objects.create(recipe=recipe, **ingredient_data)
         return recipe
 
+class MealSerializer(serializers.HyperlinkedModelSerializer):
+    recipe_id = serializers.ReadOnlyField(source='recipe.id')
+    title = serializers.ReadOnlyField(source='recipe.title')
+    class Meta:
+        model = Meal
+        fields = ('id', 'title', 'recipe_id', 'done')
+
 class PlanSerializer(serializers.ModelSerializer):
     recipes = ListField
+    meal_set = MealSerializer(many=True)
+
     class Meta:
         model = Plan
-        fields = ('id', 'created', 'comment', 'recipes')
+        fields = ('id', 'created', 'comment', 'recipes', 'meal_set')
         depth = 1
 
     def create(self, validated_data):

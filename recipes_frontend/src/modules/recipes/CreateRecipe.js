@@ -1,13 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import { IconButton } from "@material-ui/core";
+import { Button, IconButton, TextField, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import IngredientFormRow from "./IngredientFormRow";
-import PortionSelection from "./PortionSelection";
-import { createRecipe } from "../services/api";
+import IngredientFormRow from "modules/recipes/IngredientFormRow";
+import PortionSelection from "modules/recipes/PortionSelection";
+import { createRecipe } from "services/api";
 
 const createRecipeStyles = {
   formRow: {
@@ -109,6 +107,9 @@ class CreateRecipe extends React.Component {
     const classes = this.props.classes;
     return (
       <form noValidate onSubmit={this.submitHandler}>
+        <Typography gutterBottom variant="h5">
+          Neues Rezept
+        </Typography>
         <TextField
           className={classes.formRow}
           id="title"

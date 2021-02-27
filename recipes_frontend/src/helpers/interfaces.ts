@@ -13,10 +13,19 @@ export interface Ingredient {
     unit: string;
 }
 
+export interface Meal {
+    id: number,
+    recipe_id: number,
+    title: string,
+    done: boolean
+}
+
 export interface Plan {
+    id: number;
     created: Date;
     comment: string;
     recipes: Recipe[];
+    meal_set: Meal[];
 }
 
 export type Scrapers = "chefkoch"

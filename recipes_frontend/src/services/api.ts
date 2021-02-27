@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Scrapers, Recipe } from "../helpers/interfaces";
+import { Scrapers, Recipe, Plan, Meal } from "helpers/interfaces";
 
 const BASE_URL = "http://localhost:8000";
 
@@ -24,4 +24,15 @@ export async function importRecipe(scraper: Scrapers, url: string): Promise<Reci
     params: { scraper, url },
   });
   return {...result.data, url};
+}
+
+export async function getAllPlans(): Promise<Plan[]> {
+  const result = await axios.get(`${BASE_URL}/plans/`);
+  return result.data;
+}
+
+export async function updateMealDone(meal: Meal, done: boolean): Promise<Plan[]> {
+  meal.done = done;
+  await axios.put(`${BASE_URL}/meals/${meal.id}/`, meal)
+  return getAllPlans();
 }

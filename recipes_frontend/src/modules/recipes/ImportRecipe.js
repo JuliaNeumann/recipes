@@ -8,10 +8,12 @@ import {
   FormControlLabel,
   Radio,
   TextField,
+  Typography,
+  FormGroup,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { importRecipe } from "../services/api";
-import CreateRecipe from "./CreateRecipe";
+import { importRecipe } from "services/api";
+import CreateRecipe from "modules/recipes/CreateRecipe";
 
 const importRecipeStyles = {
   formRow: {
@@ -61,23 +63,9 @@ class ImportRecipe extends React.Component {
       <>
         {!this.state.importDone && (
           <form noValidate onSubmit={this.submitHandler}>
-            <FormControl component="fieldset" className={classes.formRow}>
-              <FormLabel component="legend">Importieren von ...</FormLabel>
-              <RadioGroup
-                aria-label="import from"
-                name="scraper"
-                value={this.state.scraper}
-                onChange={(event) => {
-                  this.setState({ scraper: event.target.value });
-                }}
-              >
-                <FormControlLabel
-                  value="chefkoch"
-                  control={<Radio />}
-                  label="Chefkoch"
-                />
-              </RadioGroup>
-            </FormControl>
+            <Typography gutterBottom variant="h5">
+              Rezept Import
+            </Typography>
             <TextField
               className={classes.formRow}
               id="url"
@@ -86,6 +74,25 @@ class ImportRecipe extends React.Component {
               value={this.state.url}
               onChange={(event) => this.setState({ url: event.target.value })}
             />
+            <FormGroup>
+              <FormControl component="fieldset" className={classes.formRow}>
+                <FormLabel component="legend">Importieren von ...</FormLabel>
+                <RadioGroup
+                  aria-label="import from"
+                  name="scraper"
+                  value={this.state.scraper}
+                  onChange={(event) => {
+                    this.setState({ scraper: event.target.value });
+                  }}
+                >
+                  <FormControlLabel
+                    value="chefkoch"
+                    control={<Radio />}
+                    label="Chefkoch"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </FormGroup>
             <Button variant="contained" color="primary" type="submit">
               Importieren
             </Button>

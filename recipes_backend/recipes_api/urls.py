@@ -5,6 +5,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'recipes', views.RecipeViewSet)
 router.register(r'ingredients', views.IngredientViewSet)
+router.register(r'meals', views.MealViewSet)
 router.register(r'plans', views.PlanViewSet)
 router.register(r'scrape', views.ScrapeViewSet, basename="scrape")
 

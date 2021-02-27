@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { getRecipe } from "../services/api";
-import PortionSelection from "./PortionSelection";
+import { getRecipe } from "services/api";
+import PortionSelection from "modules/recipes/PortionSelection";
 
 const showRecipeStyles = {
   block: {

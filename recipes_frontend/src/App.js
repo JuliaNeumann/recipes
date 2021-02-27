@@ -14,11 +14,12 @@ import Container from "@material-ui/core/Container";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
-import CreateRecipe from "./components/CreateRecipe";
-import NavItems from "./components/NavItems";
-import RecipesOverview from "./components/RecipesOverview";
-import ShowRecipe from "./components/ShowRecipe";
-import ImportRecipe from "./components/ImportRecipe";
+import CreateRecipe from "modules/recipes/CreateRecipe";
+import NavItems from "modules/main/NavItems";
+import RecipesOverview from "modules/recipes/RecipesOverview";
+import ShowRecipe from "modules/recipes/ShowRecipe";
+import ImportRecipe from "modules/recipes/ImportRecipe";
+import PlansOverview from "modules/plans/PlansOverview";
 
 const drawerWidth = 240;
 
@@ -162,7 +163,9 @@ function App() {
               <Route path="/import">
                 <ImportRecipe />
               </Route>
-              <Route path="/weekplan">Weekplan</Route>
+              <Route path="/weekplan">
+                <PlansOverview />
+              </Route>
               <Route path="/recipe/:id">
                 <ShowRecipe />
               </Route>
