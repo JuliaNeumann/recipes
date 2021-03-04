@@ -1,12 +1,14 @@
 export interface Recipe {
+    id?: number,
     title: string;
     description: string;
-    url: string;
+    url?: string;
     confirmed: boolean;
-    ingredients: Ingredient[]
+    ingredients: Ingredient[];
 }
 
 export interface Ingredient {
+    id?: number;
     name: string;
     num_portions: number;
     amount: number;

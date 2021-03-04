@@ -15,26 +15,25 @@ import { Plan, Meal } from "helpers/interfaces";
 import { getAllPlans, updateMealDone } from "services/api";
 import { Checkbox } from "@material-ui/core";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-    },
-    summary: {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.contrastText,
-    },
-    details: {
-      display: "block",
-    },
-    recipe_done: {
-      textDecoration: "line-through",
-    },
-  });
+const styles = (theme: Theme) => createStyles({
+  root: {
+    width: "100%",
+  },
+  summary: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText,
+  },
+  details: {
+    display: "block",
+  },
+  recipe_done: {
+    textDecoration: "line-through",
+  },
+});
 
-interface PlansOverviewProps extends WithStyles<typeof styles> {}
+interface PlansOverviewProps extends WithStyles<typeof styles> { }
 
-const PlansOverview = ({ classes, ...props }: PlansOverviewProps) => {
+const PlansOverview = ({ classes }: PlansOverviewProps) => {
   const [plans, setPlans] = useState([] as Plan[]);
   const [expanded, setExpanded] = React.useState(-1);
 

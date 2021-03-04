@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
+import {
+  AppBar,
+  createStyles,
+  Container,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  Theme,
+  Toolbar,
+  Typography,
+  withStyles,
+  WithStyles
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
@@ -23,7 +28,7 @@ import PlansOverview from "modules/plans/PlansOverview";
 
 const drawerWidth = 240;
 
-const appStyles = makeStyles((theme) => ({
+const styles = (theme: Theme) => createStyles({
   root: {
     display: "flex",
   },
@@ -91,17 +96,12 @@ const appStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
-}));
+});
 
-function App() {
-  const classes = appStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+interface AppProps extends WithStyles<typeof styles> {}
+
+const App = ({ classes }: AppProps) => {
+  const [open, setOpen] = useState(true);
 
   return (
     <Router>
@@ -116,7 +116,7 @@ function App() {
               edge="start"
               color="secondary"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={() => setOpen(true)}
               className={clsx(
                 classes.menuButton,
                 open && classes.menuButtonHidden
@@ -144,7 +144,7 @@ function App() {
           open={open}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={() => setOpen(false)}>
               <ChevronLeftIcon color="secondary" />
             </IconButton>
           </div>
@@ -180,4 +180,4 @@ function App() {
   );
 }
 
-export default App;
+export default withStyles(styles)(App);
