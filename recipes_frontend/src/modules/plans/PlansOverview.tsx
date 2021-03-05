@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
+  Checkbox,
   withStyles,
   WithStyles,
   createStyles,
@@ -9,11 +10,12 @@ import {
   Typography,
   AccordionDetails,
   Link,
+  IconButton,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { Link as RouterLink } from "react-router-dom";
 import { Plan, Meal } from "helpers/interfaces";
-import { getAllPlans, updateMealDone } from "services/api";
-import { Checkbox } from "@material-ui/core";
+import { getAllPlans, updateMealDone, deletePlan } from "services/api";
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -22,13 +24,22 @@ const styles = (theme: Theme) => createStyles({
   summary: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
+    '&:focus': {
+      backgroundColor: theme.palette.primary.light,
+    }
   },
   details: {
     display: "block",
+    position: "relative"
   },
   recipe_done: {
     textDecoration: "line-through",
   },
+  delete_button: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+  }
 });
 
 interface PlansOverviewProps extends WithStyles<typeof styles> { }
@@ -37,14 +48,15 @@ const PlansOverview = ({ classes }: PlansOverviewProps) => {
   const [plans, setPlans] = useState([] as Plan[]);
   const [expanded, setExpanded] = React.useState(-1);
 
-  useEffect(() => {
-    async function getPlans() {
-      const plans = await getAllPlans();
-      if (plans.length) {
-        setPlans(plans);
-        setExpanded(plans[0].id);
-      }
+  const getPlans = async () => {
+    const plans = await getAllPlans();
+    if (plans.length) {
+      setPlans(plans);
+      setExpanded(plans[0].id);
     }
+  }
+
+  useEffect(() => {
     getPlans();
   }, []);
 
@@ -58,11 +70,14 @@ const PlansOverview = ({ classes }: PlansOverviewProps) => {
   const handleDoneChange = (meal: Meal) => async (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    const plans = await updateMealDone(meal, event.target.checked);
-    if (plans.length) {
-      setPlans(plans);
-    }
+    await updateMealDone(meal, event.target.checked);
+    getPlans();
   };
+
+  const handleDeletePlan = async (id: number) => {
+    await deletePlan(id);
+    getPlans();
+  }
 
   return (
     <div className={classes.root}>
@@ -75,8 +90,10 @@ const PlansOverview = ({ classes }: PlansOverviewProps) => {
           expanded={expanded === plan.id}
           onChange={handleAccordionChange(plan.id)}
         >
-          <AccordionSummary className={classes.summary}>
-            <Typography>{plan.created}</Typography>
+          <AccordionSummary className={classes.summary} classes={{
+            focused: classes.summary
+          }}>
+            <Typography>{new Date(plan.created).toLocaleString().split(',')[0]}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             {plan.comment && (
@@ -100,6 +117,9 @@ const PlansOverview = ({ classes }: PlansOverviewProps) => {
                 </Link>
               </div>
             ))}
+            <IconButton className={classes.delete_button} aria-label="delete" onClick={() => handleDeletePlan(plan.id)}>
+              <DeleteIcon color="secondary" />
+            </IconButton>
           </AccordionDetails>
         </Accordion>
       ))}

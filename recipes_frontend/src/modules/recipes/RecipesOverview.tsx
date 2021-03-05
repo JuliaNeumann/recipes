@@ -14,11 +14,17 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { Link as RouterLink } from "react-router-dom";
 import { Recipe } from "helpers/interfaces";
 import { getAllRecipes } from "services/api";
 
-const styles = (theme: Theme) => createStyles({});
+const styles = (theme: Theme) => createStyles({
+  unconfirmed_icon: {
+    fontSize: "1.125rem",
+    marginLeft: theme.spacing()
+  }
+});
 interface RecipesOverviewProps extends WithStyles<typeof styles> { };
 
 const RecipesOverview = ({ classes }: RecipesOverviewProps) => {
@@ -60,6 +66,11 @@ const RecipesOverview = ({ classes }: RecipesOverviewProps) => {
                   >
                     {recipe.title}
                   </Link>
+                  {!recipe.confirmed && 
+                    <span title="Noch nicht bestätigt!">
+                      <HelpOutlineIcon color="secondary" className={classes.unconfirmed_icon} />
+                    </span>
+                  }
                 </TableCell>
               </TableRow>
             ))}

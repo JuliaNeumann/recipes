@@ -10,6 +10,12 @@ export async function createRecipe(recipe: Recipe): Promise<number> {
   return result.data.id;
 }
 
+export async function updateRecipe(recipe: Recipe): Promise<Recipe> {
+  const result = await axios.put(`${BASE_URL}/recipes/${recipe.id}/`, { ...recipe });
+  // TODO: error handling
+  return {... result.data, ingredients: result.data.ingredient_set};
+}
+
 export async function getAllRecipes(): Promise<Recipe[]> {
   const result = await axios.get(`${BASE_URL}/recipes/`);
   return result.data;
@@ -28,13 +34,24 @@ export async function importRecipe(scraper: Scrapers, url: string): Promise<{ re
   return { ...result.data, url };
 }
 
+export async function deleteRecipe(id: number) {
+  if (window.confirm("Rezept löschen?")) {
+    await axios.delete(`${BASE_URL}/recipes/${id}/`);
+  }
+}
+
 export async function getAllPlans(): Promise<Plan[]> {
   const result = await axios.get(`${BASE_URL}/plans/`);
   return result.data;
 }
 
-export async function updateMealDone(meal: Meal, done: boolean): Promise<Plan[]> {
+export async function updateMealDone(meal: Meal, done: boolean) {
   meal.done = done;
   await axios.put(`${BASE_URL}/meals/${meal.id}/`, meal)
-  return getAllPlans();
+}
+
+export async function deletePlan(id: number) {
+  if (window.confirm("Plan löschen?")) {
+    await axios.delete(`${BASE_URL}/plans/${id}/`);
+  }
 }

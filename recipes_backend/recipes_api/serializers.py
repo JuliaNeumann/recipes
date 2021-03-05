@@ -22,6 +22,16 @@ class RecipeSerializer(serializers.ModelSerializer):
             Ingredient.objects.create(recipe=recipe, **ingredient_data)
         return recipe
 
+    def update(self, recipe, validated_data):
+        recipe.confirmed = validated_data.get('confirmed', recipe.confirmed)
+        recipe.title = validated_data.get('title', recipe.title)
+        recipe.description = validated_data.get('description', recipe.description)
+        recipe.url = validated_data.get('url', recipe.url)
+        # TODO: update ingredients
+        recipe.save()
+        return recipe
+
+
 class MealSerializer(serializers.HyperlinkedModelSerializer):
     recipe_id = serializers.ReadOnlyField(source='recipe.id')
     title = serializers.ReadOnlyField(source='recipe.title')
