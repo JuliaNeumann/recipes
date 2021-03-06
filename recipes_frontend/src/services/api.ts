@@ -1,19 +1,18 @@
-import { Ingredient } from './../helpers/interfaces';
 import axios from "axios";
-import { Scrapers, Recipe, Plan, Meal } from "helpers/interfaces";
+import { Ingredient, NewPlan, Scrapers, NewRecipe, Recipe, Plan, Meal } from "helpers/interfaces";
 
 const BASE_URL = "http://localhost:8000";
 
-export async function createRecipe(recipe: Recipe): Promise<number> {
+export async function createRecipe(recipe: NewRecipe): Promise<number> {
   const result = await axios.post(`${BASE_URL}/recipes/`, { ...recipe, ingredient_set: recipe.ingredients });
   // TODO: error handling
   return result.data.id;
 }
 
 export async function updateRecipe(recipe: Recipe): Promise<Recipe> {
-  const result = await axios.put(`${BASE_URL}/recipes/${recipe.id}/`, { ...recipe });
+  const result = await axios.put(`${BASE_URL}/recipes/${recipe.id}/`, recipe);
   // TODO: error handling
-  return {... result.data, ingredients: result.data.ingredient_set};
+  return { ...result.data, ingredients: result.data.ingredient_set };
 }
 
 export async function getAllRecipes(): Promise<Recipe[]> {
@@ -23,7 +22,7 @@ export async function getAllRecipes(): Promise<Recipe[]> {
 
 export async function getRecipe(id: number): Promise<Recipe> {
   const result = await axios.get(`${BASE_URL}/recipes/${id}/`);
-  return {... result.data, ingredients: result.data.ingredient_set};
+  return { ...result.data, ingredients: result.data.ingredient_set };
 }
 
 export async function importRecipe(scraper: Scrapers, url: string): Promise<{ recipe: Recipe, ingredients: Ingredient[], error?: string }> {
@@ -48,6 +47,12 @@ export async function getAllPlans(): Promise<Plan[]> {
 export async function updateMealDone(meal: Meal, done: boolean) {
   meal.done = done;
   await axios.put(`${BASE_URL}/meals/${meal.id}/`, meal)
+}
+
+export async function createPlan(plan: NewPlan): Promise<number> {
+  const result = await axios.post(`${BASE_URL}/plans/`, { ...plan, meal_set: [] });
+  // TODO: error handling
+  return result.data.id;
 }
 
 export async function deletePlan(id: number) {

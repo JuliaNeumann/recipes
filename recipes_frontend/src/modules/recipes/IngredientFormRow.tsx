@@ -1,7 +1,7 @@
 import React from "react";
 import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Ingredient } from "helpers/interfaces";
+import { NewIngredient } from "helpers/interfaces";
 
 const styles = (theme: Theme) => createStyles({
   formRowFlex: {
@@ -23,9 +23,9 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface IngredientFormRowProps extends WithStyles<typeof styles> {
-  ingredient: Ingredient;
+  ingredient: NewIngredient;
   index: number;
-  updateIngredient: (index: number, ingredient: Ingredient) => void;
+  updateIngredient: (index: number, ingredient: NewIngredient) => void;
 };
 
 const IngredientFormRow = ({ classes, ...props }: IngredientFormRowProps) => {

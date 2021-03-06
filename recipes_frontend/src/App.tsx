@@ -25,6 +25,7 @@ import RecipesOverview from "modules/recipes/RecipesOverview";
 import ShowRecipe from "modules/recipes/ShowRecipe";
 import ImportRecipe from "modules/recipes/ImportRecipe";
 import PlansOverview from "modules/plans/PlansOverview";
+import CreatePlan from "modules/plans/CreatePlan";
 
 const drawerWidth = 240;
 
@@ -98,7 +99,7 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-interface AppProps extends WithStyles<typeof styles> {}
+interface AppProps extends WithStyles<typeof styles> { }
 
 const App = ({ classes }: AppProps) => {
   const [open, setOpen] = useState(true);
@@ -165,6 +166,9 @@ const App = ({ classes }: AppProps) => {
               </Route>
               <Route path="/weekplan">
                 <PlansOverview />
+              </Route>
+              <Route path="/create-weekplan">
+                <CreatePlan />
               </Route>
               <Route path="/recipe/:id">
                 <ShowRecipe />

@@ -14,7 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 import IngredientFormRow from "modules/recipes/IngredientFormRow";
 import PortionSelection from "modules/recipes/PortionSelection";
 import { createRecipe } from "services/api";
-import { Ingredient, Recipe } from "helpers/interfaces";
+import { NewIngredient, NewRecipe } from "helpers/interfaces";
 import { FormEvent } from "react";
 
 const styles = (theme: Theme) => createStyles({
@@ -35,8 +35,8 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface CreateRecipeProps extends WithStyles<typeof styles>, RouteComponentProps {
-  recipe?: Recipe;
-  ingredients?: Ingredient[];
+  recipe?: NewRecipe;
+  ingredients?: NewIngredient[];
 }
 
 const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
@@ -44,7 +44,7 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
   const [url, setUrl] = useState(props.recipe?.url || "");
   const [description, setDescription] = useState(props.recipe?.description || "");
   const [portions, setPortions] = useState(props.ingredients?.[0]?.num_portions || 2);
-  const [ingredients, setIngredients] = useState([{ amount: 0, unit: "", name: "", num_portions: 2 }] as Ingredient[]);
+  const [ingredients, setIngredients] = useState([{ amount: 0, unit: "", name: "", num_portions: 2 }] as NewIngredient[]);
 
   useEffect(() => {
     if (props.ingredients) {
@@ -52,15 +52,15 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
     }
   }, []);
 
-  const updateIngredient = (index: number, ingredient: Ingredient) => {
-    const newIngredients: Ingredient[] = ingredients.slice();
+  const updateIngredient = (index: number, ingredient: NewIngredient) => {
+    const newIngredients: NewIngredient[] = ingredients.slice();
     newIngredients[index] = { ...ingredient };
     setIngredients(newIngredients);
   };
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const recipe: Recipe = {
+    const recipe: NewRecipe = {
       title: title,
       url: url,
       description: description,

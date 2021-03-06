@@ -6,7 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import CreateIcon from "@material-ui/icons/Create";
 import PublishIcon from "@material-ui/icons/Publish";
-import EventNoteIcon from "@material-ui/icons/EventNote";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
 type Page = { route: string; title: string, icon: JSX.Element };
 
@@ -16,7 +17,8 @@ const NavItems = () => {
     { route: "/", title: "Alle Rezepte", icon: <ListAltIcon color="secondary" /> },
     { route: "/create", title: "Neues Rezept", icon: <CreateIcon color="secondary" /> },
     { route: "/import", title: "Rezept Import", icon: <PublishIcon color="secondary" /> },
-    { route: "/weekplan", title: "Wochenplan", icon: <EventNoteIcon color="secondary" /> },
+    { route: "/weekplan", title: "Wochenplan", icon: <LibraryBooksIcon color="secondary" /> },
+    { route: "/create-weekplan", title: "Neuer Wochenplan", icon: <LibraryAddIcon color="secondary" /> },
   ];
 
   return (
