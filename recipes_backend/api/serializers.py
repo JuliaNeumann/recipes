@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import ListField
 
-from recipes_api.models import Recipe, Ingredient, Plan, Meal
+from api.models import Recipe, Ingredient, Plan, Meal
 
 
 class IngredientSerializer(serializers.ModelSerializer):

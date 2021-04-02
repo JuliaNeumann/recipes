@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipes_api', '0005_auto_20201228_1919'),
+        ('api', '0005_auto_20201228_1919'),
     ]
 
     operations = [
@@ -16,19 +16,19 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('done', models.BooleanField(default=False)),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='recipes_api.recipe')),
+                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.recipe')),
             ],
         ),
         migrations.CreateModel(
             name='WeekPlan',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipes', models.ManyToManyField(through='recipes_api.PlannedMeal', to='recipes_api.Recipe')),
+                ('recipes', models.ManyToManyField(through='api.PlannedMeal', to='api.Recipe')),
             ],
         ),
         migrations.AddField(
             model_name='plannedmeal',
             name='weekplan',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipes_api.weekplan'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.weekplan'),
         ),
     ]

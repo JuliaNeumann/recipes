@@ -20,12 +20,14 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import CreateRecipe from "modules/recipes/CreateRecipe";
+import Login from "modules/main/Login";
 import NavItems from "modules/main/NavItems";
 import RecipesOverview from "modules/recipes/RecipesOverview";
 import ShowRecipe from "modules/recipes/ShowRecipe";
 import ImportRecipe from "modules/recipes/ImportRecipe";
 import PlansOverview from "modules/plans/PlansOverview";
 import CreatePlan from "modules/plans/CreatePlan";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -103,6 +105,13 @@ interface AppProps extends WithStyles<typeof styles> { }
 
 const App = ({ classes }: AppProps) => {
   const [open, setOpen] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      setIsAuth(true);
+    }
+  }, []);
 
   return (
     <Router>
@@ -158,24 +167,33 @@ const App = ({ classes }: AppProps) => {
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
             <Switch>
-              <Route path="/create">
-                <CreateRecipe />
-              </Route>
-              <Route path="/import">
-                <ImportRecipe />
-              </Route>
-              <Route path="/weekplan">
-                <PlansOverview />
-              </Route>
-              <Route path="/create-weekplan">
-                <CreatePlan />
-              </Route>
-              <Route path="/recipe/:id">
-                <ShowRecipe />
-              </Route>
-              <Route path="/">
-                <RecipesOverview />
-              </Route>
+              {isAuth &&
+                <>
+                  <Route path="/create">
+                    <CreateRecipe />
+                  </Route>
+                  <Route path="/import">
+                    <ImportRecipe />
+                  </Route>
+                  <Route path="/weekplan">
+                    <PlansOverview />
+                  </Route>
+                  <Route path="/create-weekplan">
+                    <CreatePlan />
+                  </Route>
+                  <Route path="/recipe/:id">
+                    <ShowRecipe />
+                  </Route>
+                  <Route path="/">
+                    <RecipesOverview />
+                  </Route>
+                </>
+              }
+              {!isAuth &&
+                <Route path="/">
+                  <Login />
+                </Route>
+              }
             </Switch>
           </Container>
         </main>

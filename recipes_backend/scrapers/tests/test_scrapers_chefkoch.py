@@ -1,8 +1,8 @@
 from django.test import TestCase
-import recipes_scrapers.tests.helpers as helpers # pylint: disable=import-error
+import scrapers.tests.helpers as helpers # pylint: disable=import-error
 
-from recipes_scrapers.scrapers import Chefkoch # pylint: disable=import-error
-from recipes_scrapers.models import Recipe # pylint: disable=import-error
+from scrapers.scrapers import Chefkoch # pylint: disable=import-error
+from scrapers.models import Recipe # pylint: disable=import-error
 
 class TestChefkoch(TestCase):
 

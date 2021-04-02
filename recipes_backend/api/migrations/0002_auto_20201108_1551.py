@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipes_api', '0001_initial'),
+        ('api', '0001_initial'),
     ]
 
     operations = [
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ingredient',
             name='recipe',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='recipes_api.recipe'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='api.recipe'),
             preserve_default=False,
         ),
     ]

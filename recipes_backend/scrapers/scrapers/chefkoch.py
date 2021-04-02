@@ -2,8 +2,8 @@ import re
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from recipes_scrapers.scrapers.scraper_interface import ScraperInterface
-from recipes_scrapers.models import Recipe, Ingredient
+from scrapers.scrapers.scraper_interface import ScraperInterface
+from scrapers.models import Recipe, Ingredient
 
 class Chefkoch(ScraperInterface):
     """

@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipes_api', '0007_auto_20210214_1401'),
+        ('api', '0007_auto_20210214_1401'),
     ]
 
     operations = [
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created', models.DateField(auto_now_add=True)),
                 ('comment', models.TextField(blank=True)),
-                ('recipes', models.ManyToManyField(through='recipes_api.Meal', to='recipes_api.Recipe')),
+                ('recipes', models.ManyToManyField(through='api.Meal', to='api.Recipe')),
             ],
         ),
         migrations.RemoveField(
@@ -40,11 +40,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='meal',
             name='plan',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipes_api.plan'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.plan'),
         ),
         migrations.AddField(
             model_name='meal',
             name='recipe',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='recipes_api.recipe'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.recipe'),
         ),
     ]

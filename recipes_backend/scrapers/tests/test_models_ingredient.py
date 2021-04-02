@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from recipes_scrapers.models import Ingredient # pylint: disable=import-error
+from scrapers.models import Ingredient # pylint: disable=import-error
 
 class TestIngredient(TestCase):
 
