@@ -1,8 +1,8 @@
 import axios from "axios";
 import {Ingredient, NewPlan, Scrapers, NewRecipe, Recipe, Plan, Meal} from "helpers/interfaces";
 
-const BASE_URL_AUTH = "http://localhost:8000/users";
-const BASE_URL = "http://localhost:8000/api";
+const BASE_URL_AUTH = "/users";
+const BASE_URL = "/api";
 
 const _getAuthHeaders = () => {
     return {"Authorization": `Token ${localStorage.getItem("token")}`};
