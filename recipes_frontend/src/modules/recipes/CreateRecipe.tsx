@@ -50,7 +50,7 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
     if (props.ingredients) {
       setIngredients(props.ingredients.map(ingredient => ({ ...ingredient })));
     }
-  }, []);
+  }, [props.ingredients]);
 
   const updateIngredient = (index: number, ingredient: NewIngredient) => {
     const newIngredients: NewIngredient[] = ingredients.slice();

@@ -152,8 +152,10 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 
-# Rest Framework config. Add all of this.
+# Rest Framework config
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%m/%d/%Y %I:%M%P",
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', ],
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

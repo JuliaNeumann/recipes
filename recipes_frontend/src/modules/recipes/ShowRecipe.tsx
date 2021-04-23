@@ -46,7 +46,7 @@ const ShowRecipe = ({ classes, match, history }: ShowRecipeProps) => {
       setRecipe(recipe);
     }
     getRecipeById();
-  }, []);
+  }, [id]);
 
 
   const getAmountForPortions = (ingredient: Ingredient) => {
