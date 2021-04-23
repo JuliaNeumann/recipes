@@ -17,6 +17,9 @@ psycopg2-binary = "*"
 django-rest-auth = "*"
 django-allauth = "*"
 django-cors-headers = "*"
+django-heroku = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.9"

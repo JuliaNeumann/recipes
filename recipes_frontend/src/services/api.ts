@@ -1,7 +1,8 @@
 import axios from "axios";
 import {Ingredient, NewPlan, Scrapers, NewRecipe, Recipe, Plan, Meal} from "helpers/interfaces";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL_AUTH = "http://localhost:8000/users";
+const BASE_URL = "http://localhost:8000/api";
 
 const _getAuthHeaders = () => {
     return {"Authorization": `Token ${localStorage.getItem("token")}`};
@@ -71,7 +72,7 @@ export async function deletePlan(id: number) {
 
 export async function login(email: string, password: string): Promise<string | undefined> {
     try {
-        const result = await axios.post(`${BASE_URL}/users/auth/login/`, {email, password});
+        const result = await axios.post(`${BASE_URL_AUTH}/auth/login/`, {email, password});
         return result.data.key || undefined;
     } catch (error) {
         console.error(error);
@@ -81,7 +82,7 @@ export async function login(email: string, password: string): Promise<string | u
 
 export async function logout(): Promise<boolean> {
     try {
-        await axios.post(`${BASE_URL}/users/auth/logout/`, {}, {headers: _getAuthHeaders()});
+        await axios.post(`${BASE_URL_AUTH}/auth/logout/`, {}, {headers: _getAuthHeaders()});
         return true;
     } catch (error) {
         console.error(error);
