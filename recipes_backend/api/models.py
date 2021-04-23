@@ -1,5 +1,5 @@
-import datetime
 from django.db import models
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=500)
@@ -9,6 +9,7 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -20,10 +21,12 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.name
 
+
 class Plan(models.Model):
     created = models.DateField(auto_now_add=True)
     comment = models.TextField(blank=True)
     recipes = models.ManyToManyField(Recipe, through='Meal')
+
 
 class Meal(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)

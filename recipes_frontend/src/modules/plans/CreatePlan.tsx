@@ -10,7 +10,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import { Link as RouterLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { NewPlan, Recipe } from "helpers/interfaces";
 import { getAllRecipes, createPlan } from "services/api";
@@ -93,7 +93,7 @@ const CreatePlan = ({ classes, history }: CreatePlanProps) => {
             </Link>
             {!recipe.confirmed &&
               <span title="Noch nicht bestätigt!">
-                <HelpOutlineIcon color="secondary" className={classes.unconfirmed_icon} />
+                <ErrorOutlineIcon color="secondary" className={classes.unconfirmed_icon} />
               </span>
             }
           </div>

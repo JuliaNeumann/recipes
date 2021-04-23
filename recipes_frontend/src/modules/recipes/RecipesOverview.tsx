@@ -14,7 +14,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import { Link as RouterLink } from "react-router-dom";
 import { Recipe } from "helpers/interfaces";
 import { getAllRecipes } from "services/api";
@@ -68,7 +68,7 @@ const RecipesOverview = ({ classes }: RecipesOverviewProps) => {
                   </Link>
                   {!recipe.confirmed && 
                     <span title="Noch nicht bestätigt!">
-                      <HelpOutlineIcon color="secondary" className={classes.unconfirmed_icon} />
+                      <ErrorOutlineIcon color="secondary" className={classes.unconfirmed_icon} />
                     </span>
                   }
                 </TableCell>
