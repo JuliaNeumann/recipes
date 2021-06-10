@@ -13,8 +13,8 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import IngredientFormRow from "modules/recipes/IngredientFormRow";
 import PortionSelection from "modules/recipes/PortionSelection";
-import { createRecipe } from "services/api";
-import { NewIngredient, NewRecipe } from "helpers/interfaces";
+import { createRecipe, updateRecipe } from "services/api";
+import { Ingredient, Recipe } from "helpers/interfaces";
 import { FormEvent } from "react";
 
 const styles = (theme: Theme) => createStyles({
@@ -35,8 +35,9 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface CreateRecipeProps extends WithStyles<typeof styles>, RouteComponentProps {
-  recipe?: NewRecipe;
-  ingredients?: NewIngredient[];
+  recipe?: Recipe;
+  ingredients?: Ingredient[];
+  editExisting?: boolean;
 }
 
 const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
@@ -44,7 +45,7 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
   const [url, setUrl] = useState(props.recipe?.url || "");
   const [description, setDescription] = useState(props.recipe?.description || "");
   const [portions, setPortions] = useState(props.ingredients?.[0]?.num_portions || 2);
-  const [ingredients, setIngredients] = useState([{ amount: 0, unit: "", name: "", num_portions: 2 }] as NewIngredient[]);
+  const [ingredients, setIngredients] = useState([{ amount: 0, unit: "", name: "", num_portions: 2 }] as Ingredient[]);
 
   useEffect(() => {
     if (props.ingredients) {
@@ -52,29 +53,35 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
     }
   }, [props.ingredients]);
 
-  const updateIngredient = (index: number, ingredient: NewIngredient) => {
-    const newIngredients: NewIngredient[] = ingredients.slice();
+  const updateIngredient = (index: number, ingredient: Ingredient) => {
+    const newIngredients: Ingredient[] = ingredients.slice();
     newIngredients[index] = { ...ingredient };
     setIngredients(newIngredients);
   };
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const recipe: NewRecipe = {
+    const recipe: Recipe = {
+      id: props.recipe?.id,
       title: title,
       url: url,
       description: description,
-      ingredients: ingredients.map((ingredient) => {
+      ingredients: ingredients.map((ingredient, index) => {
+        ingredient.id = props.recipe && props.recipe.ingredients[index] ? props.recipe.ingredients[index].id : undefined; 
         ingredient.num_portions = portions;
         return ingredient;
       }),
       confirmed: false,
     };
 
-    const result = await createRecipe(recipe);
+    const result = props.editExisting ?  await updateRecipe(recipe) : await createRecipe(recipe);
     if (!isNaN(result)) {
       alert("Rezept gespeichert!");
-      history.push(`recipe/${result}`);
+      if (props.editExisting) {
+        window.location.reload();
+      } else {
+        history.push(`recipe/${result}`);
+      }
     }
   };
 
@@ -88,7 +95,7 @@ const CreateRecipe = ({ classes, history, ...props }: CreateRecipeProps) => {
   return (
     <form noValidate onSubmit={submitHandler}>
       <Typography gutterBottom variant="h5">
-        Neues Rezept
+        {props.recipe ? "Rezept bearbeiten" : "Neues Rezept"}
       </Typography>
       <TextField
         className={classes.formRow}

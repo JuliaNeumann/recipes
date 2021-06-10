@@ -27,7 +27,17 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe.title = validated_data.get('title', recipe.title)
         recipe.description = validated_data.get('description', recipe.description)
         recipe.url = validated_data.get('url', recipe.url)
-        # TODO: update ingredients
+        ingredients_data = self.initial_data.pop('ingredient_set')
+        for ingredient_data in ingredients_data:
+            if "id" in ingredient_data and ingredient_data["id"] != None:
+                ingredient = Ingredient.objects.get(pk=ingredient_data["id"])
+                ingredient.name = ingredient_data["name"]
+                ingredient.num_portions = ingredient_data["num_portions"]
+                ingredient.amount = ingredient_data["amount"]
+                ingredient.unit = ingredient_data["unit"]
+                ingredient.save()
+            else:
+                Ingredient.objects.create(recipe=recipe, **ingredient_data)
         recipe.save()
         return recipe
 

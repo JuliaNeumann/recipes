@@ -18,10 +18,12 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
+import EditIcon from "@material-ui/icons/Edit";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Ingredient, Recipe } from "helpers/interfaces";
 import { deleteRecipe, getRecipe, updateRecipe } from "services/api";
 import PortionSelection from "modules/recipes/PortionSelection";
+import CreateRecipe from "modules/recipes/CreateRecipe";
 
 const styles = (theme: Theme) => createStyles({
   block: {
@@ -37,13 +39,16 @@ interface ShowRecipeProps extends WithStyles<typeof styles>, RouteComponentProps
 const ShowRecipe = ({ classes, match, history }: ShowRecipeProps) => {
   const [id] = useState(parseInt(match.params.id));
   const [recipe, setRecipe] = useState({ id: 0, title: "", description: "", ingredients: [] as Ingredient[], confirmed: true } as Recipe);
+  const [ingredients, setIngredients] = useState([] as Ingredient[]);
   const [portions, setPortions] = useState(2);
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     const getRecipeById = async () => {
       const recipe = await getRecipe(id);
       setRecipe(recipe);
+      setIngredients(recipe.ingredients);
     }
     getRecipeById();
   }, [id]);
@@ -59,14 +64,14 @@ const ShowRecipe = ({ classes, match, history }: ShowRecipeProps) => {
   }
 
   const handleConfirm = async () => {
-    const updatedRecipe = await updateRecipe({ ...recipe, confirmed: true });
-    setRecipe(updatedRecipe);
+    const recipeId = await updateRecipe({ ...recipe, confirmed: true });
+    setRecipe(await getRecipe(recipeId));
     setShowSnackbar(true);
   }
 
   return (
     <>
-      {recipe && (
+      {recipe && !editMode && (
         <>
           <Typography className={classes.block} variant="h4">
             {recipe.title}
@@ -79,6 +84,9 @@ const ShowRecipe = ({ classes, match, history }: ShowRecipeProps) => {
             }
             <IconButton aria-label="delete" title="Löschen" onClick={handleDelete}>
               <DeleteIcon color="secondary" />
+            </IconButton>
+            <IconButton aria-label="edit" title="Bearbeiten" onClick={() => setEditMode(true)}>
+              <EditIcon color="secondary" />
             </IconButton>
           </Typography>
           {recipe.url && (
@@ -125,6 +133,13 @@ const ShowRecipe = ({ classes, match, history }: ShowRecipeProps) => {
           </Typography>
           <Snackbar open={showSnackbar} autoHideDuration={1000} onClose={() => setShowSnackbar(false)} message="Rezept bestätigt!" />
         </>
+      )}
+      {recipe && editMode && (
+        <CreateRecipe
+          recipe={recipe}
+          ingredients={ingredients}
+          editExisting={true}
+        />
       )}
     </>
   );

@@ -58,7 +58,7 @@ const CreatePlan = ({ classes, history }: CreatePlanProps) => {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.checked) {
-      setRecipesChecked([...recipesChecked, recipe.id]);
+      setRecipesChecked([...recipesChecked, recipe.id as number]);
     } else {
       setRecipesChecked(recipesChecked.filter((recipeId) => recipeId !== recipe.id))
     }
@@ -81,7 +81,7 @@ const CreatePlan = ({ classes, history }: CreatePlanProps) => {
         {recipes.map(recipe => (
           <div key={recipe.id}>
             <Checkbox
-              checked={recipesChecked.includes(recipe.id)}
+              checked={recipesChecked.includes(recipe.id as number)}
               onChange={handleCheckboxChange(recipe)}
             />
             <Link

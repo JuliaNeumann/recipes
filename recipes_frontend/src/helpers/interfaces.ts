@@ -1,25 +1,18 @@
-export interface NewRecipe {
+export interface Recipe {
+    id?: number;
     title: string;
     description: string;
     url?: string;
     confirmed: boolean;
-    ingredients: NewIngredient[];
-}
-
-export interface Recipe extends  Omit<NewRecipe, 'ingredients'> {
-    id: number;
     ingredients: Ingredient[];
 }
 
-export interface NewIngredient {
+export interface Ingredient {
+    id?: number;
     name: string;
     num_portions: number;
     amount: number;
     unit: string;
-}
-
-export interface Ingredient extends NewIngredient {
-    id: number;
 }
 
 export interface Meal {

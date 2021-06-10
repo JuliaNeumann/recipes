@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { importRecipe } from "services/api";
 import CreateRecipe from "modules/recipes/CreateRecipe";
-import { NewIngredient, NewRecipe, Scrapers } from "helpers/interfaces";
+import { Ingredient, Recipe, Scrapers } from "helpers/interfaces";
 
 const styles = (theme: Theme) => createStyles({
   formRow: {
@@ -30,8 +30,8 @@ const ImportRecipe = ({ classes }: ImportRecipeProps) => {
   const [scraper, setScraper] = useState("chefkoch" as Scrapers)
   const [url, setUrl] = useState("");
   const [importDone, setImportDone] = useState(false);
-  const [recipe, setRecipe] = useState({} as NewRecipe);
-  const [ingredients, setIngredients] = useState([] as NewIngredient[]);
+  const [recipe, setRecipe] = useState({} as Recipe);
+  const [ingredients, setIngredients] = useState([] as Ingredient[]);
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
